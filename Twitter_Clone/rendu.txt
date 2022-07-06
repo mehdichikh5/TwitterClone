@@ -1,0 +1,31 @@
+J'ai rajouté dans common .js un bouton pour signaler un tweet fake
+
+ <button id="btn1" onclick="ajoutFake(postData)">Signalement Fake</button>
+
+Quand on clique dessus, il envoie le tweet a la fontions ajoutFake.
+
+function ajoutFake(tweet) {
+    tweet.like = tweet.numberFake + 1 
+    
+}
+
+J'ai donc rajouté un attribut number Fake à mon shema Post
+
+const PostSchema = new Schema({
+    content: { type: String, trim: true },
+    postedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    pinned: Boolean,
+    likes : [{type:Schema.Types.ObjectId,ref: 'User'}],
+    numberFake :{ type: int }
+
+
+dans mon post.js j'ai ajouté
+Post.find()
+    .where(numberFake < 10)
+    .populate("postedBy")
+    .sort({ "createdAt": -1 })
+
+afin que les tweets avec un nombre de signlement fakes superieurs à 10 ne soient pas inclus.
+
+
+ATTENTION : IL FAUT SE CONNECTER EN LOCALHOST 3003 ET NON 3001
